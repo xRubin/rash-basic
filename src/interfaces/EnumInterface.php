@@ -2,7 +2,7 @@
 
 namespace rash\basic\interfaces;
 
-interface IdInterface extends \JsonSerializable
+interface EnumInterface extends \JsonSerializable
 {
     /**
      * @param string $value
@@ -11,10 +11,10 @@ interface IdInterface extends \JsonSerializable
     public static function fromString(string $value);
 
     /**
-     * @param IdInterface $id
+     * @param EnumInterface $enum
      * @return bool
      */
-    public function equalTo(IdInterface $id): bool;
+    public function equalTo(EnumInterface $enum): bool;
 
     /**
      * @return string

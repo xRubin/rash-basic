@@ -1,5 +1,4 @@
-<?php
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 /**
  * Tests for Collection
@@ -8,32 +7,34 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
 {
     public function testConstructorWithData(): void
     {
-        $collection = new Collection([
-            new CollectionItem(new CollectionItemId('a')),
-            new CollectionItem(new CollectionItemId('b'))
+        $collection = new _Collection([
+            new _CollectionItem(new _CollectionItemId('a')),
+            new _CollectionItem(new _CollectionItemId('b'))
         ]);
         $this->assertCount(2, $collection);
     }
 
     public function testTypeChecking(): void
     {
-        $collection = new Collection([new CollectionItem(new CollectionItemId('a'))]);
+        $collection = new _Collection([
+            new _CollectionItem(new _CollectionItemId('a'))
+        ]);
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage('Value must be of type CollectionItem');
+        $this->expectExceptionMessage('Value must be of type _CollectionItem');
         $collection[] = uniqid();
     }
 
     public function testAdd(): void
     {
-        $collection = new Collection();
-        $this->assertInstanceOf(Collection::class, $collection->add(new CollectionItem(new CollectionItemId('a'))));
+        $collection = new _Collection();
+        $this->assertInstanceOf(_Collection::class, $collection->add(new _CollectionItem(new _CollectionItemId('a'))));
     }
 
     public function testAddMayAddSameObjectMultipleTimes(): void
     {
-        $obj1 = new CollectionItem(new CollectionItemId('a'));
-        $collection1 = new Collection();
-        $collection2 = new Collection();
+        $obj1 = new _CollectionItem(new _CollectionItemId('a'));
+        $collection1 = new _Collection();
+        $collection2 = new _Collection();
         // Add the same object multiple times
         for ($i = 0; $i < 4; $i++) {
             $collection1[] = $obj1;
@@ -48,9 +49,9 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testContains(): void
     {
-        $obj1 = new CollectionItem(new CollectionItemId('a'));
-        $obj2 = new CollectionItem(new CollectionItemId('a'));
-        $collection = new Collection();
+        $obj1 = new _CollectionItem(new _CollectionItemId('a'));
+        $obj2 = new _CollectionItem(new _CollectionItemId('a'));
+        $collection = new _Collection();
         $collection->add($obj1);
         $this->assertTrue($collection->contain($obj1));
         $this->assertFalse($collection->contain($obj2));
@@ -58,9 +59,9 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testContainsNonStrict(): void
     {
-        $obj1 = new CollectionItem(new CollectionItemId('a'));
-        $obj2 = new CollectionItem(new CollectionItemId('a'));
-        $collection = new Collection();
+        $obj1 = new _CollectionItem(new _CollectionItemId('a'));
+        $obj2 = new _CollectionItem(new _CollectionItemId('a'));
+        $collection = new _Collection();
         $collection->add($obj1);
         $this->assertTrue($collection->contain($obj1, false));
         $this->assertTrue($collection->contain($obj2, false));
@@ -68,23 +69,23 @@ class CollectionTest extends \PHPUnit\Framework\TestCase
 
     public function testRemove(): void
     {
-        $obj1 = new CollectionItem(new CollectionItemId('a'));
-        $collection = new Collection();
+        $obj1 = new _CollectionItem(new _CollectionItemId('a'));
+        $collection = new _Collection();
         $collection->add($obj1);
         $this->assertTrue($collection->remove($obj1));
         $this->assertFalse($collection->remove($obj1));
     }
 }
 
-class Collection extends \rash\basic\structures\ContainsIdCollection
+class _Collection extends \rash\basic\structures\ContainsIdCollection
 {
     public function getType(): string
     {
-        return CollectionItem::class;
+        return _CollectionItem::class;
     }
 }
 
-class CollectionItem implements \rash\basic\interfaces\ContainsIdInterface
+class _CollectionItem implements \rash\basic\interfaces\ContainsIdInterface
 {
     /** @var \rash\basic\interfaces\IdInterface */
     private $id;
@@ -106,7 +107,7 @@ class CollectionItem implements \rash\basic\interfaces\ContainsIdInterface
     }
 }
 
-class CollectionItemId extends \rash\basic\structures\Id
+class _CollectionItemId extends \rash\basic\structures\Id
 {
 
 }

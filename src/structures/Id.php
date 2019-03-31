@@ -4,7 +4,7 @@ namespace rash\basic\structures;
 
 use rash\basic\interfaces\IdInterface;
 
-abstract class Id implements IdInterface, \JsonSerializable
+abstract class Id implements IdInterface
 {
     /** @var string */
     private $value;
@@ -32,7 +32,7 @@ abstract class Id implements IdInterface, \JsonSerializable
      */
     public static function fromString(string $value)
     {
-            return new static($value);
+        return new static($value);
     }
 
     /**
